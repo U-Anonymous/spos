@@ -124,3 +124,37 @@ public class mayurpass1 {
 	}
 }
 
+
+/*
+assembly.txt
+- START 100
+L1 MOVER AREG =3
+- MOVEM BREG X
+- SUB AREG =1
+- LTORG
+- MOVEM AREG Y
+- BC any L1
+- ADD CREG,4
+X DC 6
+Y DS 2
+- END
+
+Opcode.java
+STOP IS 01
+ADD IS 02
+SUB IS 03
+MUL IS 04
+MOVER IS 05
+MOVEM IS 06
+START AD 01
+END AD 02
+ORIGIN AD 03
+LTORG AD 04
+AREG R1
+BREG R2
+CREG R3
+DREG R4
+DC DL 01
+DS DL 02
+
+/*
