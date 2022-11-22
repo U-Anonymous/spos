@@ -1,102 +1,107 @@
 import java.util.*;
-public class opt {
+public class LRU {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		//LRU - List Recent Use
+		
+		int pageHit=0, pageMiss=0;
+		
+		int p, f, i, j;
+		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("Enter no of pages: ");
-		int n=sc.nextInt();
+		System.out.println("Enter the no. of Pages: ");
+		p = sc.nextInt();
 		
+		int pages[] = new int[p];
 		
-		int page[]=new int[n];
-		
-		System.out.println("Enter pages: ");
-		for(int i=0;i<page.length;i++)
+		System.out.println("Enter the pages: ");
+		for(i=0; i<p; i++)
 		{
-			page[i]=sc.nextInt();
+			pages[i] = sc.nextInt();
 		}
 		
+		//frame
+		System.out.println("Enter the size of frame: ");
+		f = sc.nextInt();
 		
-		System.out.println("Enter size of frame: ");
-		int framesize=sc.nextInt();
+		int frames[] = new int[f];
+		int newFrame[] = new int[f];
 		
-		int frame[]=new int[framesize];
-		
-		
-		System.out.print("\nPages: ");
-		for(int i=0;i<page.length;i++)
+		//frame -1 and newFrame 0
+		for(i=0; i<f; i++)
 		{
-			System.out.print(" "+page[i]);
+			frames[i] = -1;
+			newFrame[i] = 0;
 		}
 		
+		int flag;
 		
-		System.out.print("\nFrame: ");
-		
-		
-		for(int i=0;i<frame.length;i++)
+		for(i=0, j=0; j<f && i<p; j=j%f, i++)
 		{
-			frame[i]=-1;
-			System.out.print(" "+frame[i]);
-		} 
-		System.out.println("\n");
-		int flag=0,pageHit=0,pageMiss=0;
-		 
-		 
-		 int array[]=new int[frame.length];
-		 for(int i=0;i<frame.length;i++)
-			 array[i]=0;
-		 
-		 
-		 for(int j=0,i=0; j<frame.length && i<page.length; j=j%frame.length, i++)
-		 {
-			 flag=0;
-			 for(int x=0;x<frame.length;x++)
-			 {
-				 if(frame[x]==page[i])
-				 {
-					 flag=1;
-					 pageHit++;
-					 array[x]=0;
-				 }
-			 }
-			 if(flag==0)
-			 if(frame[j]==-1)
-			 {
-				 frame[j]=page[i];
-				 pageMiss++;
-//				 rear++;
-				 j++;
-			 }
-			 else
-			 {
-				 int max=array[0],loc=0;
-				 pageMiss++;
-				 for(int b=0;b<frame.length;b++)
-				 if(array[b]>max)
-				 {
-					 max=array[b];loc=b;
-				 }
-				 frame[loc]=page[i];
-				 array[loc]=0;
-				 j++;
-			 }
-			 System.out.print("Frame["+(i+1)+"]: ");
-			 for(int k=0;k<frame.length;k++)
-			 System.out.print("\t"+frame[k]);
-			 System.out.println();
-			 for(int a=0;a<frame.length;a++)
-			 {
-				 if(frame[a]==-1)
-				 array[a]=0;
-				 else
-				 array[a]++;
-			 }
-		 }
-		 System.out.println("\nNumber of PageHit: "+pageHit);
-		 System.out.println("Number of PageMiss(Page Fault): "+pageMiss);
-		 float pagemiss=pageMiss,noofpages=page.length;
-		 System.out.println("Page fault ratio: "+pagemiss/noofpages);
+			
+			flag=0;
+			
+			for(int x=0; x<f; x++)
+			{
+				if(frames[x] == pages[i])
+				{
+					flag = 1;
+					pageHit++;
+					newFrame[x] = 0;
+				}
+			}
+			
+			if(flag==0)
+			if(frames[j] == -1) {
+				frames[j] = pages[i];
+				pageMiss++;
+				j++;
+			}
+			else
+			{
+				int max = newFrame[0], loc=0;
+				pageMiss++;
+				for(int b=0; b<f; b++)
+				{
+					if(newFrame[b]>max)
+					{
+						max = newFrame[b];
+						loc=b;
+					}
+				}
+				
+				frames[loc] = pages[i];
+				newFrame[loc] = 0;
+				j++;
+			}
+			
+			System.out.print("Frame["+(i+1)+"]: ");
+			for(int k=0; k<f; k++)
+			{
+				System.out.print("\t"+frames[k]);
+			}
+			
+			System.out.println();
+			for(int a=0; a<f; a++)
+			{
+				if(frames[a] == -1)
+				{
+					newFrame[a] = 0;
+				}
+				else
+				{
+					newFrame[a]++;
+				}
+			}
+		}
+		
+		System.out.println("\nNumber of PageHit: "+pageHit);
+		System.out.println("Number of PageMiss (Page Fault): "+pageMiss);
+		float Miss = pageMiss, noofpages=p;
+		System.out.println("Page fault ratio: "+Miss/noofpages);
+		
+		
 	}
 
 }
